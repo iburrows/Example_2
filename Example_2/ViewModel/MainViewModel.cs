@@ -14,7 +14,9 @@ namespace Example_2.ViewModel
         public RelayCommand StartBtnClicked { get; set; }
         //public ObservableCollection<UserVM> UsersList { get; set; }
         public ObservableCollection<string> UsersList { get; set; }
-        private ObservableCollection<string> chatMessages;
+        //private ObservableCollection<string> chatMessages;
+        private ObservableCollection<ChatHistoryVM> chatMessages;
+        public string Message { get; set; }
 
         public Server theServer;
         private bool isConnected = false;
@@ -23,14 +25,27 @@ namespace Example_2.ViewModel
         private const string ip = "127.0.0.1";
 
         public string Name { get; set; }
+        private string selectedUser = "";
+        public string SelectedUser {
+            get {return selectedUser; }
+            set {selectedUser = value; RaisePropertyChanged(); }
+        }
 
-        public string SelectedUser { get; set; }
+        //public ObservableCollection<string> ChatMessages
+        //{
+        //    get { return chatMessages; }
+        //    set { chatMessages = value;
+        //        RaisePropertyChanged(); }
+        //}
 
-        public ObservableCollection<string> ChatMessages
+        public ObservableCollection<ChatHistoryVM> ChatMessages
         {
             get { return chatMessages; }
-            set { chatMessages = value;
-                RaisePropertyChanged(); }
+            set
+            {
+                chatMessages = value;
+                RaisePropertyChanged();
+            }
         }
 
         public MainViewModel()
@@ -38,7 +53,8 @@ namespace Example_2.ViewModel
             StartBtnClicked = new RelayCommand(()=> { StartServer(); },()=> { return !isConnected; });
             //UsersList = new ObservableCollection<UserVM>();
             UsersList = new ObservableCollection<string>();
-            ChatMessages = new ObservableCollection<string>();
+            //ChatMessages = new ObservableCollection<string>();
+            ChatMessages = new ObservableCollection<ChatHistoryVM>();
             //DemoData();
         }
 
@@ -53,14 +69,14 @@ namespace Example_2.ViewModel
         {
             App.Current.Dispatcher.Invoke(() => 
             {
-                if (message.Contains(":"))
+                if (message.Contains("New User"))
                 {
                     string[] newUser = message.Split(':');
                     UsersList.Add(newUser[1]);
                 }
                 else
                 {
-                    ChatMessages.Add(message);
+                    ChatMessages.Add(new ChatHistoryVM(message, DateTime.Now));
                 }
                 
                 //UsersList.Add(new UserVM(message, new ChatHistoryVM(message)));

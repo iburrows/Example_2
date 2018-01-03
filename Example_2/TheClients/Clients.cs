@@ -16,6 +16,7 @@ namespace Example_2.TheClients
         public Socket ClientSocket { get; set; }
         const string endMessage = "@quit";
         private int msgCount = 0;
+        public string Name { get; set; }
 
         public int MsgCount
         {
@@ -51,12 +52,15 @@ namespace Example_2.TheClients
 
                 if (MsgCount == 0)
                 {
-                    Action(ClientSocket, "New User:" + msg );
+                    Name = msg;
+                    Action(ClientSocket, "New User: " + msg );
                     MsgCount++;
                 }
 
-                Action(ClientSocket, msg);
-                MsgCount++;
+                else { 
+                    Action(ClientSocket, Name + ": " + msg);
+                    MsgCount++;
+                }
             }
             Close();
             }
