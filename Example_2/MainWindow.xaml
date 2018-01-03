@@ -6,7 +6,21 @@
         xmlns:local="clr-namespace:Example_2"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+    >
+    <Window.Resources>
+        <DataTemplate x:Key="UserTemplate">
+            <StackPanel>
+                <Label Content="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MsgTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding UsersMessages.ChatMessages.SelectedUser}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -21,12 +35,12 @@
 
         <StackPanel Orientation="Vertical"  Grid.Row="1" Margin="5">
             <Label Content="Registered Users"/>
-            <ListBox ItemsSource="{Binding UsersList}" SelectedItem="{Binding selectedUser}" />
+            <ListBox ItemsSource="{Binding UsersList}" SelectedItem="{Binding selectedUser}" ItemTemplate="{StaticResource UserTemplate}"/>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" Margin="5">
             <Label Content="Chat History"/>
-            <ListBox ItemsSource="{Binding ChatMessages}"/>
+            <ListBox ItemsSource="{Binding UsersList}" ItemTemplate="{StaticResource MsgTemplate}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="2">

@@ -12,8 +12,8 @@ namespace Example_2.ViewModel
     {
 
         public RelayCommand StartBtnClicked { get; set; }
-        //public ObservableCollection<UserVM> UsersList { get; set; }
-        public ObservableCollection<string> UsersList { get; set; }
+        public ObservableCollection<UserVM> UsersList { get; set; }
+        //public ObservableCollection<string> UsersList { get; set; }
         private ObservableCollection<string> chatMessages;
 
         public Server theServer;
@@ -36,10 +36,19 @@ namespace Example_2.ViewModel
         public MainViewModel()
         {
             StartBtnClicked = new RelayCommand(()=> { StartServer(); },()=> { return !isConnected; });
-            //UsersList = new ObservableCollection<UserVM>();
-            UsersList = new ObservableCollection<string>();
+            UsersList = new ObservableCollection<UserVM>();
+            //UsersList = new ObservableCollection<string>();
             ChatMessages = new ObservableCollection<string>();
-            //DemoData();
+            DemoData();
+        }
+
+        private void DemoData()
+        {
+            UsersList.Add(new UserVM("Ian"));
+            UsersList.Add(new UserVM("Tessa"));
+
+            UsersList[0].AddMsg(new ChatHistoryVM("Hi"));
+            UsersList[1].AddMsg(new ChatHistoryVM("Hi"));
         }
 
         private void StartServer()
@@ -56,12 +65,12 @@ namespace Example_2.ViewModel
                 if (message.Contains(":"))
                 {
                     string[] newUser = message.Split(':');
-                    UsersList.Add(newUser[1]);
+                    UsersList.Add(new UserVM(newUser[1]));
                 }
-                else
-                {
-                    ChatMessages.Add(message);
-                }
+                //else
+                //{
+                //    ChatMessages.Add(message);
+                //}
                 
                 //UsersList.Add(new UserVM(message, new ChatHistoryVM(message)));
             });
