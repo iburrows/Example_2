@@ -21,29 +21,27 @@
 
         <StackPanel Orientation="Vertical"  Grid.Row="1" Margin="5">
             <Label Content="Registered Users"/>
-            <ListBox>
-                
-            </ListBox>
+            <ListBox ItemsSource="{Binding UsersList}" SelectedItem="{Binding selectedUser}" />
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" Margin="5">
             <Label Content="Chat History"/>
-            <ListBox>
-
-            </ListBox>
+            <ListBox ItemsSource="{Binding ChatMessages}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="2">
-            <Button Content="Start Receiving" HorizontalAlignment="Right" Margin="5"/>
+            <Button Content="Start Receiving" HorizontalAlignment="Right" Margin="5" Command="{Binding StartBtnClicked}"/>
         </StackPanel>
         
         <StackPanel Orientation="Vertical" Grid.Column="3" Grid.Row="1" Margin="5">
             
             <Label Content="Messages from User"/>
-            <Label BorderBrush="Black" BorderThickness="2"/>
+            <Label Content="{Binding selectedUser}" BorderBrush="Black" BorderThickness="2"/>
             <DataGrid AutoGenerateColumns="False">
-                <DataGridTextColumn Header="Message"/>
-                <DataGridTextColumn Header="Time"/>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Message" Width="*"/>
+                    <DataGridTextColumn Header="Time" Width="*"/>
+                </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
     </Grid>
