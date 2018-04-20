@@ -16,7 +16,10 @@ namespace Example_2.ViewModel
         public ObservableCollection<string> UsersList { get; set; }
         //private ObservableCollection<string> chatMessages;
         private ObservableCollection<ChatHistoryVM> chatMessages;
+
+        public ObservableCollection<ChatHistoryVM> SelectedUsersMessages { get; set; }
         public string Message { get; set; }
+        public string Time { get; set; }
 
         public Server theServer;
         private bool isConnected = false;
@@ -28,7 +31,31 @@ namespace Example_2.ViewModel
         private string selectedUser = "";
         public string SelectedUser {
             get {return selectedUser; }
-            set {selectedUser = value; RaisePropertyChanged(); }
+            set {
+                selectedUser = value;
+                RaisePropertyChanged();
+                GetMessages(selectedUser);
+            }
+        }
+
+        private void GetMessages(string selectedUser)
+        {
+            if (SelectedUsersMessages.Count > 0)
+            {
+                SelectedUsersMessages.Clear();
+            }
+
+            foreach (var item in chatMessages)
+            {
+                string[] Message = item.Message.Split(':');
+
+                string UserName = Message[0].Trim();
+
+                if (UserName.Contains(selectedUser.Trim()))
+                {
+                    SelectedUsersMessages.Add(item);
+                }
+            }
         }
 
         //public ObservableCollection<string> ChatMessages
@@ -50,13 +77,15 @@ namespace Example_2.ViewModel
 
         public MainViewModel()
         {
+            SelectedUsersMessages = new ObservableCollection<ChatHistoryVM>();
             StartBtnClicked = new RelayCommand(()=> { StartServer(); },()=> { return !isConnected; });
             //UsersList = new ObservableCollection<UserVM>();
             UsersList = new ObservableCollection<string>();
             //ChatMessages = new ObservableCollection<string>();
             ChatMessages = new ObservableCollection<ChatHistoryVM>();
-            //DemoData();
+            
         }
+
 
         private void StartServer()
         {

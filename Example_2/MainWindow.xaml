@@ -44,13 +44,12 @@
             
             <Label Content="Messages from User"/>
             <Label Content="{Binding SelectedUser}" BorderBrush="Black" BorderThickness="2" Height="30" HorizontalAlignment="Stretch"/>
-            <DataGrid AutoGenerateColumns="False">
+            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding SelectedUsersMessages}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Message" Width="*"/>
-                    <DataGridTextColumn Header="Time" Width="*"/>
+                    <DataGridTextColumn Header="Message" Width="*" Binding="{Binding Message}"/>
+                    <DataGridTextColumn Header="Time" Width="*" Binding="{Binding Time}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
-        <ListBox Grid.Column="2" HorizontalAlignment="Left" Height="100" Margin="372,117,-299,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>

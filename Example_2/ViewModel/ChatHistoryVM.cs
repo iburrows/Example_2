@@ -10,7 +10,7 @@ namespace Example_2.ViewModel
         public ChatHistoryVM(string message, DateTime time)
         {
             this.Message = message;
-            Time = time.ToString();
+            Time = time.ToShortTimeString();
         }
     }
 }
